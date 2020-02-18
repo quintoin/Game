@@ -1,5 +1,5 @@
 import time
-from card_ascii import ascii_version_of_card, ascii_version_of_hidden_card
+from card_ascii import ascii_version_of_card, ascii_version_of_hidden_card, print_hidden_card, print_card
 from card import Card, Deck, Hand
 from player_chips import chips, player_bet
 
@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     # initialize chips amount
     player = chips()
-    print("You have 100 chips\n")
+    print("You have 100 chips")
 
     while player.amount > 0:
         new_deck = Deck()
@@ -24,20 +24,17 @@ if __name__ == '__main__':
         # First turn, place your bets
         bet = player_bet(player.amount)
 
-        # initialize NPC Hand
+        # initialize NPC and player Hand
         computer_hand = Hand()
         computer_hand.add_card(new_deck.deal())
-        print('NPC Cards')
         computer_hand.add_card(new_deck.deal())
-        print(ascii_version_of_hidden_card(*computer_hand.cards))
 
-        # initialize player Hand
         player_hand = Hand()
         player_hand.add_card(new_deck.deal())
         player_hand.add_card(new_deck.deal())
-        print('\nYour Cards: ')
-        print(ascii_version_of_card(*player_hand.cards))
-        print('Your total points: {}'.format(player_hand.points))
+
+
+        print_hidden_card(player_hand, computer_hand)
 
         # player turn
         while player_hand.points <= 21:
@@ -45,11 +42,8 @@ if __name__ == '__main__':
             if chose.lower() == 'hit':
                 player_hand.add_card(new_deck.deal())
                 player_hand.adjust_for_ace()
-                print('NPC cards:\n')
-                print(ascii_version_of_hidden_card(*computer_hand.cards))
-                print('Your cards:\n')
-                print(ascii_version_of_card(*player_hand.cards))
-                print('Your total points: {}'.format(player_hand.points))
+
+                print_hidden_card(player_hand, computer_hand)
 
             elif chose.lower() == 'stand':
                 break
@@ -67,18 +61,15 @@ if __name__ == '__main__':
         # end check
 
         # npc game start
+        print('Computer with hidden card:\n')
+        print_card(player_hand, computer_hand)
+        time.sleep(2)
+
         while player_hand.points > computer_hand.points:
             computer_hand.add_card(new_deck.deal())
-            time.sleep(4)
-            print('NPC cards:\n')
-            print(ascii_version_of_card(*computer_hand.cards))
-            print('NPC total points: {}'.format(computer_hand.points))
-            time.sleep(1)
-            print('Your cards:\n')
-            print(ascii_version_of_card(*player_hand.cards))
-            print('Your total points: {}'.format(player_hand.points))
+            print_card(player_hand, computer_hand)
+            time.sleep(2)
         # NPC turn end
-
 
         # check who won
         if computer_hand.points > 21:

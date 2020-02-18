@@ -48,3 +48,20 @@ def ascii_version_of_hidden_card(*cards):
         lines[index] = ''.join(line)
 
     return '\n'.join(lines)
+
+def print_hidden_card(pc, npc):
+    print(10*'\n')
+    print('NPC Cards\n')
+    print(ascii_version_of_hidden_card(*npc.cards))
+    print('Your Cards: \n')
+    print(ascii_version_of_card(*pc.cards))
+    print('Your total points: {}'.format(pc.points))
+
+def print_card(pc,npc):
+    print(10 * '\n')
+    print('NPC cards:\n')
+    print(ascii_version_of_card(*npc.cards))
+    print('NPC total points: {}'.format(npc.points))
+    print('Your cards:\n')
+    print(ascii_version_of_card(*pc.cards))
+    print('Your total points: {}'.format(pc.points))

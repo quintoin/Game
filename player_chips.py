@@ -13,7 +13,7 @@ class chips:
 
 def player_bet(cash_you_have):
     while True:
-        bet = input('Please place your bet\n')
+        bet = input('\nPlease place your bet\n')
 
         try:
             if int(bet) > cash_you_have:
@@ -25,3 +25,4 @@ def player_bet(cash_you_have):
             continue
 
         return bet
+
