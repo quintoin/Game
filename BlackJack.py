@@ -1,47 +1,7 @@
-import random
 import time
 from card_ascii import ascii_version_of_card, ascii_version_of_hidden_card
 from card import Card, Deck, Hand
-
-suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
-ranks = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace')
-
-suits_symbols = '♠', '♦', '♥', '♣'
-
-
-
-
-
-class chips:
-
-    def __init__(self):
-        self.amount = 100
-        self.min = 0
-
-    def win_bet(self, amount):
-        self.amount = self.amount + int(amount)
-
-    def lose_bet(self, amount):
-        self. amount = self.amount - int(amount)
-
-
-def player_bet(cash_you_have):
-    while True:
-        bet = input('Please place your bet\n')
-
-        try:
-            if int(bet) > cash_you_have:
-                print('Not enough cash')
-                continue
-
-        except:
-            print('Please type a number')
-            continue
-
-        return bet
-
-
-
+from player_chips import chips, player_bet
 
 
 # GAME START
@@ -60,18 +20,17 @@ while player.amount > 0:
     new_deck = Deck()
     new_deck.shuffle()
 
-
-    #First turn, place your bets
+    # First turn, place your bets
     bet = player_bet(player.amount)
 
-    # initialize computer hand
+    # initialize NPC Hand
     computer_hand = Hand()
     computer_hand.add_card(new_deck.deal())
     print('NPC Cards')
     computer_hand.add_card(new_deck.deal())
     print(ascii_version_of_hidden_card(*computer_hand.cards))
 
-    #part for player game
+    # initialize player Hand
     player_hand = Hand()
     player_hand.add_card(new_deck.deal())
     player_hand.add_card(new_deck.deal())
@@ -96,8 +55,9 @@ while player.amount > 0:
         else:
             print("Please write either 'hit' or 'stand'\n")
             continue
-    #player turn end
-    #check if he busted, if not - call computer
+    # player turn end
+
+    # check if he busted, if not - call computer
     if player_hand.points > 21:
         print('BUSTED')
         player.lose_bet(bet)
@@ -105,9 +65,7 @@ while player.amount > 0:
         continue
     # end check
 
-
-
-    #start computer game
+    # npc game start
     while player_hand.points > computer_hand.points:
         computer_hand.add_card(new_deck.deal())
         time.sleep(4)
@@ -118,8 +76,8 @@ while player.amount > 0:
         print('Your cards:\n')
         print(ascii_version_of_card(*player_hand.cards))
         print('Your total points: {}'.format(player_hand.points))
-    #end computer game
-    #check who wins
+    # end computer game
+    # check who wins
     if computer_hand.points > 21:
         player.win_bet(bet)
         print('Computer bust! Congratulations, now you have {} chips!'.format(player.amount))
@@ -128,5 +86,5 @@ while player.amount > 0:
         player.lose_bet(bet)
         print('You have {} chips left'.format(player.amount))
 
-print('Vi proebalis')
+print('Game Over')
 
