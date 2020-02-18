@@ -12,7 +12,7 @@ else:
     print('Game exited')
     exit()
 
-#initialize chips amount
+# initialize chips amount
 player = chips()
 print("You have 100 chips\n")
 
