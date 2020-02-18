@@ -55,7 +55,7 @@ if __name__ == '__main__':
         # check if player busted, if not - call NPC
         if player_hand.points > 21:
             print('BUSTED')
-            player.lose_bet(bet)
+            player.loose_bet(bet)
             print('You have {} chips left'.format(player.amount))
             continue
         # end check
@@ -77,7 +77,7 @@ if __name__ == '__main__':
             print('Computer bust! Congratulations, now you have {} chips!'.format(player.amount))
         else:
             print('Computer won! You lost {} chips'.format(bet))
-            player.lose_bet(bet)
+            player.loose_bet(bet)
             print('You have {} chips left'.format(player.amount))
 
     print('Game Over')

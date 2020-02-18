@@ -7,7 +7,7 @@ class chips:
     def win_bet(self, amount):
         self.amount = self.amount + int(amount)
 
-    def lose_bet(self, amount):
+    def loose_bet(self, amount):
         self. amount = self.amount - int(amount)
 
 
