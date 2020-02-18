@@ -1,67 +1,14 @@
 import random
 import time
+from card_ascii import ascii_version_of_card, ascii_version_of_hidden_card
+from card import Card, Deck, Hand
 
 suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 ranks = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace')
 
 suits_symbols = '♠', '♦', '♥', '♣'
 
-class Card(object):
 
-    card_values = {
-        'Ace': 11,
-        '2': 2,
-        '3': 3,
-        '4': 4,
-        '5': 5,
-        '6': 6,
-        '7': 7,
-        '8': 8,
-        '9': 9,
-        '10': 10,
-        'Jack': 10,
-        'Queen': 10,
-        'King': 10
-    }
-
-    def __init__(self, suit, rank):
-        self.rank = rank
-        self.suit = suit.capitalize()
-        self.points = self.card_values[rank]
-
-class Deck:
-
-    def __init__(self):
-        self.deck = []
-        for suit in suits:
-            for rank in ranks:
-                self.deck.append(Card(suit, rank))
-
-
-    def shuffle(self):
-        random.shuffle(self.deck)
-
-    def deal(self):
-        return self.deck.pop()
-
-
-class Hand:
-
-    def __init__(self):
-        self.cards = []
-        self.points = 0
-        self.aces = 0
-
-    def add_card(self, card):
-        self.cards.append(card)
-        self.points = self.points + card.points
-        if card.rank == 'Ace':
-            self.aces = self.aces + 1
-
-    def adjust_for_ace(self):
-        if self.aces > 0 and self.points > 21:
-            self.points = self.points - 10
-            self.aces -= 1
 
 
 
@@ -94,56 +41,7 @@ def player_bet(cash_you_have):
         return bet
 
 
-def ascii_version_of_card(*cards, return_string=True):
 
-    suits_name = ['Spades', 'Diamonds', 'Hearts', 'Clubs']
-    suits_symbols = ['♠', '♦', '♥', '♣']
-
-    lines = [[] for i in range(9)]
-
-    for index, card in enumerate(cards):
-        if card.rank == '10':
-            rank = card.rank
-            space = ''
-        else:
-            rank = card.rank[0]
-            space = ' '
-
-        suit = suits_name.index(card.suit)
-        suit = suits_symbols[suit]
-
-        lines[0].append('┌─────────┐')
-        lines[1].append('│{}{}       │'.format(rank, space))
-        lines[2].append('│         │')
-        lines[3].append('│         │')
-        lines[4].append('│    {}    │'.format(suit))
-        lines[5].append('│         │')
-        lines[6].append('│         │')
-        lines[7].append('│       {}{}│'.format(space, rank))
-        lines[8].append('└─────────┘')
-
-    result = []
-    for index, line in enumerate(lines):
-        result.append(''.join(lines[index]))
-
-    if return_string:
-        return '\n'.join(result)
-    else:
-        return result
-
-
-def ascii_version_of_hidden_card(*cards):
-
-    lines = [['┌─────────┐'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['│░░░░░░░░░│'], ['└─────────┘']]
-
-    cards_except_first = ascii_version_of_card(*cards[1:], return_string=False)
-    for index, line in enumerate(cards_except_first):
-        lines[index].append(line)
-
-    for index, line in enumerate(lines):
-        lines[index] = ''.join(line)
-
-    return '\n'.join(lines)
 
 
 # GAME START
